@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from wishlist.views import show_xml #sesuaikan dengan nama fungsi yang dibuat
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example_app.urls')),
     path('wishlist/', include('wishlist.urls')),
+    path('xml/', show_xml, name='show_xml'), #sesuaikan dengan nama fungsi yang dibuat
 
 ]
