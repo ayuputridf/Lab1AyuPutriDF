@@ -1,18 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render #Awalan membuat aplikasi nya
 from wishlist.models import BarangWishlist
 
-from django.http import HttpResponse
+from django.http import HttpResponse #perihal XML & JSON
 from django.core import serializers
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect #perihal buat Form Registration
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login #Merestriksi Akses Halaman Wishlist
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
-import datetime
+import datetime #Menambahkan Cookies
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 

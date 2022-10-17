@@ -1,25 +1,89 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h5>Nama: </h5>
-<b>{{nama}}</b>
+<!-- <h5 style="text-align:center">Nama: </h5>
+<p style="text-align:center" font="bold">{{nama}}</p> -->
 
-<table>
-    <tr>
-    <th>Nama Barang</th>
-    <th>Harga Barang</th>
-    <th>Deskripsi</th>
-    </tr>
-    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
-    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
-    {% for barang in list_barang %}
+<style>
+body {
+  background-image: url('https://i.ibb.co/qMGPg9K/gradient-blur-pink-blue-abstract-background-53876-117324.jpg');;
+}
+.main {
+  text-align:center;   
+}
+.tittle {
+  color:#410053;
+  font-size:30px;
+  font-weight:bold;
+}
+.nama {
+  font-size:18px;
+  font-weight:bold;
+
+}#nama-user {
+  color:#000000;
+  font-size:15px;
+
+}#sesi-login {
+  color:#000000;
+  font-size:15px;
+}
+
+</style>
+<body>
+    <div class = "main">
+      
+      <br></br>
+      <div class = "tittle"> Your Wishlist </div>
+      <br></br>
+      <div class = "nama">Nama :</div>
+      <div id = "nama-user">{{nama}}</div>
+      <br></br>
+
+    <!--=====================MEMBUAT KAYA MENU DIATAS GITU===================== -->
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+      <div class="container-fluid">
+        
+        <a class="navbar-brand" href="#main-table">Welcome, {{nama}} !</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="btn btn-primary" href="{% url 'wishlist:logout' %}" role="button">Logout</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+    <table border = "2" cellpadding = "8" align="center">
         <tr>
-            <th>{{barang.nama_barang}}</th>
-            <th>{{barang.harga_barang}}</th>
-            <th>{{barang.deskripsi}}</th>
+          <th>Nama Barang</th>
+          <th>Harga Barang</th>
+          <th>Deskripsi</th>
         </tr>
-    {% endfor %}
-</table>
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-<button><a href="{% url 'wishlist:logout' %}">Logout</a></button>
+        {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+        {% for barang in list_barang %}
+        <tr>
+            <td>{{barang.nama_barang}}</td>
+            <td>{{barang.harga_barang}}</td>
+            <td>{{barang.deskripsi}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+      <br></br>
+      <div id = "sesi-login">Sesi terakhir login: {{ last_login }}</div>
+      
+      <!-- =====================INI BUTTON BOOTSRAP JD BAGUS===================== -->
+      <!-- <iniButton class="btn btn-primary" href="{% url 'wishlist:logout' %}" role="button">Logout</a> -->
+      <!-- =====================INI BUTTON BIASA AJA===================== -->
+      <!-- <button><a href="{% url 'wishlist:logout' %}">Logout</a></button> -->
+
+    </div>
+  </body>
+
 {% endblock content %}
