@@ -16,6 +16,7 @@ import datetime #Menambahkan Cookies
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+
 @login_required(login_url='/wishlist/login/')
 # Create your views here.
 def show_wishlist(request):
@@ -76,3 +77,27 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('wishlist:login'))
     response.delete_cookie('last_login')
     return response
+
+def show_ajax(request):
+    data_barang_wishlist = BarangWishlist.objects.all() #store queries
+    context = {
+        'list_barang' : data_barang_wishlist,
+    }
+    return render (request, "wishlist_ajax.html", context)
+
+def add_barang_wishlist(request):
+    if request.method == 'POST':
+        nama_barang = request.POST.get('nama_barang')
+        harga_barang = request.POST.get('harga_barang')
+        deskripsi = request.POST.get('deskripsi')
+        new_barang = BarangWishlist(
+            nama_barang =nama_barang,
+            harga_barang=harga_barang,
+            deskripsi=deskripsi
+        )
+        new_barang.save()
+        return HttpResponse(
+            serializers.serialize("json,"[new_barang]),
+            content_type="application/json",
+        )
+    return redirect('wishlisht:show_ajax')

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function posting(e) {
+          e.preventDefault()
+          const namaBarang = $("#nama_barang").val()
+          const hargaBarang = $("#harga_barang").val()
+          const deskripsi = $("#deskripsi").val()
+      
+          const data = {
+            nama_barang: namaBarang,
+            harga_barang: hargaBarang,
+            deskripsi,
+            csrfmiddlewaretoken: "{{ csrf_token }}"
+          }
+      
+          $.ajax({
+            type: 'POST',
+            url: '{% url "wishlist:add_barang_wishlist" %}',
+            data: data, 
+            success: () => {
+              alert("Done!")
+              fetchData()
+            },
+            dataType: 'json'
+          });
+        }
+      
+        function getTable(data) {
+          const table = $("#main-table")
+          table.empty()
+          for (let i = 0; i < data.length; i++) {
+            table.append(`
+              <tr>
+                <td>${data[i].fields.nama_barang}</td>
+                <td>${data[i].fields.harga_barang}</td>
+                <td>${data[i].fields.deskripsi}</td>
+              </tr>
+              `)
+          }
+        }
+      
+        function fetchData() {
+          $.get("/wishlist/json", getTable)
+        }
+      
+        $(document).ready(() => {
+          $("#submit-button").click(posting)
+          fetchData()
+        })
+    </script>
+</head>
+
+<header style="padding-bottom: 70px">
+    <!--=====================MEMBUAT KAYA MENU DIATAS GITU===================== -->
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container-fluid">
+          
+          <a class="navbar-brand" href="#main-table">Welcome, {{nama}} !</a>
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{% url 'wishlist:logout' %}" role="button">Logout</a>
+              </li>
+            </ul>
+          </div>
+  
+        </div>
+      </nav>
+</header>
+
+<main>
+    <h3 style="margin-top:7px; color:rgb(197, 87, 138)" class="font-monospace fw-semibold text-center">My Wishlist</h3>
+    <table style="margin:10px 0px 20px 20px; width:96%;"  class="table table-bordered">
+        <thead style="text-align:center" class="table-danger">
+            <th>Nama Barang</th>
+            <th>Harga Barang</th>
+            <th>Deskripsi</th>
+        </thead>
+        <tbody id="main-table">
+
+        </tbody>
+    </table>
+    <div>
+        <form action="" method="POST"> 
+            {% csrf_token %}
+            <label>Nama Barang</label>
+            <input type="text" name="nama_barang" id="nama_barang">
+
+            <label>Harga Barang</label>
+            <input type="number" name="harga_barang" id="harga_barang">
+
+            <label>Deskripsi Barang</label>
+            <input type="text" name="deskripsi" id="deskripsi">
+        </form>
+        <input class="btn btn-dark" type="submit" value="Submit" id="submit-button">
+    </div>
+    
+</main>
+{% endblock content %}
